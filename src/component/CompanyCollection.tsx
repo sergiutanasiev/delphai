@@ -1,14 +1,26 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {InitialState} from '../reducers/searchReducer'
+import {Modal} from './index'
 
 type CompanyCollectionProps = {
     collection?: Array<any>
 }
 
 export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection = []}) => {
+    const [company, setCompanyInfo] = React.useState([])
+    const [visibility, toggleVisibility] = React.useState(false)
     collection = useSelector<InitialState, InitialState["machedCollection"]>(state => state.machedCollection)
     const dispatch = useDispatch()
+
+    const closeModal = (bool: boolean) => {
+        toggleVisibility(bool)
+    }
+
+    const handleClick = (item:any) => {
+        setCompanyInfo(item)
+        toggleVisibility(true)
+    }
 
     useEffect(() => {
     }, [])
@@ -25,12 +37,15 @@ export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection =
     return(
         <div>
             <section className="a-collection">
+                <Modal visibility={visibility}
+                    closeModal={closeModal}
+                    company={company} />
                 {collection.map((item, index) => {
                     return (
                         <article key={index}>
                             <h3>{item.name}</h3>
                             <div className="action">
-                                <button>More Info</button>
+                                <button onClick={() => handleClick(item)}>More Info</button>
                                 <button>Visit Website</button>
                             </div>
                         </article>
