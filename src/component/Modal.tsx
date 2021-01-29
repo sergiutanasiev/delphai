@@ -12,6 +12,7 @@ export const Modal:React.FC<Props> = (props:Props) => {
     useEffect(() => {
         // Truncate description
         let tempDesc = props.company.description
+        console.log(tempDesc)
         tempDesc = tempDesc.substring(0, (Math.min(400, tempDesc.length)))
         setDescription(tempDesc)
     })

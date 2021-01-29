@@ -10,6 +10,7 @@ type CompanyCollectionProps = {
 export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection = []}) => {
     const [company, setCompanyInfo] = React.useState([])
     const [visibility, toggleVisibility] = React.useState(false)
+
     collection = useSelector<InitialState, InitialState["machedCollection"]>(state => state.machedCollection)
     const dispatch = useDispatch()
 
@@ -43,9 +44,13 @@ export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection =
         <div>
             <CompanyChart collection={collection}/>
             <section className="a-collection">
-                <Modal visibility={visibility}
+                {visibility ?
+                    <Modal visibility={visibility}
                     closeModal={closeModal}
                     company={company} />
+                    :
+                    ''
+                }
                 {collection.map((item, index) => {
                     return (
                         <article key={index}>
