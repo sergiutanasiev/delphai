@@ -22,6 +22,11 @@ export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection =
         toggleVisibility(true)
     }
 
+    const handleShowWebsite = (e:any, url:string) => {
+        e.preventDefault()
+        window.open(`http://${url}`, '_blank')
+    }
+
     useEffect(() => {
     }, [])
 
@@ -47,7 +52,7 @@ export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection =
                             <h3>{item.name}</h3>
                             <div className="action">
                                 <button onClick={() => handleClick(item)}>More Info</button>
-                                <button>Visit Website</button>
+                                <button onClick={(e) => handleShowWebsite(e, item.url)}>Visit Website</button>
                             </div>
                         </article>
                     )
