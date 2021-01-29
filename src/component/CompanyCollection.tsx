@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {InitialState} from '../reducers/searchReducer'
-import {Modal} from './index'
+import {Modal, CompanyChart} from './index'
 
 type CompanyCollectionProps = {
     collection?: Array<any>
@@ -36,6 +36,7 @@ export const CompanyCollection:React.FC<CompanyCollectionProps> = ({collection =
 
     return(
         <div>
+            <CompanyChart collection={collection}/>
             <section className="a-collection">
                 <Modal visibility={visibility}
                     closeModal={closeModal}
