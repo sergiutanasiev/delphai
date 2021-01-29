@@ -92,7 +92,7 @@ export const Search:React.FC<Props> = ({}:Props) => {
     })
 
     return(
-        <div>
+        <div className="search-bar">
             <SearchTerm searchTerm={searchTerm}
             onSearchTermChange={onSearchTermChange} />
             <p className={`error-log ${errorLog.length === 0 ? 'hide' : 'show'}`}>{errorLog}</p>

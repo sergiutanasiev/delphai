@@ -8,13 +8,20 @@ type Props = {
 }
 
 export const Modal:React.FC<Props> = (props:Props) => {
+    const [description, setDescription] = React.useState('')
+    useEffect(() => {
+        // Truncate description
+        let tempDesc = props.company.description
+        tempDesc = tempDesc.substring(0, (Math.min(400, tempDesc.length)))
+        setDescription(tempDesc)
+    })
     return(
         <div className={`modal ${props.visibility ? '' : 'hide'}`}>
            <div className="modal-content">
                 <h1>{props.company.name}</h1>
                 <div className="modal-description">
                     <div className="col">
-                        <p>{props.company.description}</p>
+                        <p>{description}</p>
                     </div>
                     <div className="col">
                         <p><span>Headquerters:</span> {props.company.headquarters}</p>
