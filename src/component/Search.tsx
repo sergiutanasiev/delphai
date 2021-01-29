@@ -2,6 +2,8 @@ import React, {useEffect} from 'react'
 import {SearchTerm} from './index'
 import _ from 'lodash'
 import * as data from '../api/company_collection.json'
+import { useDispatch } from 'react-redux'
+import {setMatchedCollection} from '../actions/searchAction'
 
 type Props = {}
 
@@ -16,6 +18,8 @@ export const Search:React.FC<Props> = ({}:Props) => {
     const [searchTerm, setSearchTerm] = React.useState('')
     const [errorLog, setSerror] = React.useState('')
 
+    const dispatch = useDispatch()
+
     const onSearchTermChange = (searchTerm: string) => {
         setSearchTerm(searchTerm)
         if (searchTerm.length > 3) {
@@ -28,8 +32,9 @@ export const Search:React.FC<Props> = ({}:Props) => {
     const getMatchingCompany = async(searchTerm: string) => {
         await fetchDataPromise(searchTerm)
         .then(response => {
-            console.log(response)
+            handleMatchCollection(response)
         }).catch((error) => {
+            handleMatchCollection([])
             setSerror(error)
         })
     }
@@ -56,6 +61,10 @@ export const Search:React.FC<Props> = ({}:Props) => {
         })
     }
 
+    const handleMatchCollection = (collection: Array<any>) => {
+        dispatch(setMatchedCollection(collection))
+    }
+
     useEffect(() => {
         // Case search term has 0 characters and an error is present
         // Remove the error message since the user is not currenly looking for anything
@@ -73,7 +82,12 @@ export const Search:React.FC<Props> = ({}:Props) => {
         // Case search term is shorter than 4 characters but bigger than 0 (search input has at least one character)
         if ((searchTerm.length <= 3 && searchTerm.length > 0) &&
             errorLog.length === 0) {
+                handleMatchCollection([])
                 setSerror(ErroMessages.Short)
+        }
+        // Reset collection
+        if (searchTerm.length === 0 && errorLog.length === 0) {
+            handleMatchCollection([])
         }
     })
 
